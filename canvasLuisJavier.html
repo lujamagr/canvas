@@ -1,0 +1,449 @@
+<!DOCTYPE html> 
+<html lang="es"> 
+<head>
+<title>Figuras sobre Canvas</title>
+<meta charset="utf-8" />
+
+<style type="text/css">
+{
+margin: 0; 
+padding: 0;
+}
+ 
+header, nav, aside, article, footer{
+	display: block;
+}
+ 
+body {
+	margin: 0 auto;
+	width: 940px;
+	font: 13px/22px Helvetica, Arial, sans-serif;
+}
+
+h1 {
+	font-size: 30px;
+	line-height: 20px;
+	padding: 15px 0;
+	text-align:center;
+}
+
+h3 {
+	font-size: 18px;
+	line-height: 20px;
+	padding: 8px 0;
+	text-align:center;
+}
+p {
+	padding-bottom: 20px;
+}
+ 
+#content {
+	display: table;
+}
+
+#mainContent{
+	display: table-cell;
+	width: 700px;
+	padding-right: 10px;
+}
+
+header{
+	-border:1px inset #BCADDB;
+}
+#navId{
+    background-color : #D4D2E6;
+	-position: absolute;
+	left: 0;
+	width: 100%;
+}
+aside{
+	display: table-cell;
+	width: 240px;
+}
+ 
+#instrucciones{
+	background-color : #F9FBF0;
+	margin-top: 20px;
+	padding: 10px;
+	-background-size: 100%;
+	border-radius: 22px;
+}
+ 
+#sectionId{
+	background-color : #F9FBF0;
+	
+}
+#sectionForm{
+	background-color : #F9FBF0;
+}
+footer{
+	background-color : #D7DDDD;
+}
+</style> 
+
+<script type="text/javascript">
+
+window.onload = function() {
+  document.getElementById("mensaje").innerHTML = "Para inicial haga clic sobre el bot&oacute;n Canvas del men&uacute; superior";
+};
+
+var cadenaancho=0;
+var cadenaalto=0;
+var objcanvas;
+var contexto;
+var punto1 = 0;
+var punto2 = 0;
+var punto3 = 0;
+var punto4 = 0;
+var espacio1 = 0;
+var espacio2 = 0;
+
+function mostrarFormCanvas(){
+	document.getElementById('canvasForm').style.display = 'block';
+	document.getElementById('lineaForm').style.display = 'none';
+	document.getElementById('rectanguloForm').style.display = 'none';
+	document.getElementById('pintarForm').style.display = 'none';
+}
+function mostrarFormLinea(){
+	document.getElementById('canvasForm').style.display = 'none';
+	document.getElementById('lineaForm').style.display = 'block';
+	document.getElementById('rectanguloForm').style.display = 'none';
+	document.getElementById('pintarForm').style.display = 'none';
+}
+function mostrarFormRectangulo(){
+	document.getElementById('canvasForm').style.display = 'none';
+	document.getElementById('lineaForm').style.display = 'none';
+	document.getElementById('rectanguloForm').style.display = 'block';
+	document.getElementById('pintarForm').style.display = 'none';
+}
+
+function mostrarFormColor(){
+	document.getElementById('canvasForm').style.display = 'none';
+	document.getElementById('lineaForm').style.display = 'none';
+	document.getElementById('rectanguloForm').style.display = 'none';
+	document.getElementById('pintarForm').style.display = 'block';
+}
+
+function dibujaCanvas() {
+	 objcanvas = document.getElementById('miCanvas');
+     contexto = objcanvas.getContext('2d');
+	 cadenaancho = document.getElementById('ancho').value;
+	 cadenaalto = document.getElementById('alto').value;
+	 if(cadenaancho == null || cadenaancho ==''){
+		 document.getElementById("mensaje").innerHTML = "Ingresa un valor para el ancho del canvas";
+		 return;
+	 }
+	 if(cadenaalto == null || cadenaalto ==''){
+		 document.getElementById("mensaje").innerHTML = "Ingresa un valor para el alto del canvas";
+		 return;
+	 }
+	 document.getElementById("mensaje").innerHTML = "Dibujando un nuevo Canvas";
+	 objcanvas.width = cadenaancho;
+	 objcanvas.height = cadenaalto;
+	 contexto.fillStyle = '#E4D8E4';
+	 contexto.fillRect(0, 0, cadenaancho, cadenaalto);
+}
+
+function dibujaLinea(){
+	document.getElementById("mensaje").innerHTML = "";
+	 if(cadenaancho == 0 ||cadenaalto == 0){
+		document.getElementById("mensaje").innerHTML = "Debe primero crear el canvas";
+	 }else{
+		contexto.font = '8pt Arial';
+		contexto.fillStyle = 'blue';
+				
+		punto1 = parseInt(document.getElementById('x1').value);
+		punto2 = parseInt(document.getElementById('y1').value);
+		punto3 = parseInt(document.getElementById('x2').value);
+		punto4 = parseInt(document.getElementById('y2').value);
+		
+		var i = 0;
+		if(punto1 == punto3){
+		//Se va a dibujar vertical
+		document.getElementById("mensaje").innerHTML = "Dibujando l&iacute;nea vertical";
+			if(punto2 < punto4){
+				for(i = punto2; i<=punto4; i+=5){
+					contexto.fillText('x', punto1, i);
+				}
+			}else{
+				for(i = punto4; i<=punto2; i+=5){
+					contexto.fillText('x', punto1, i);
+				}
+			}
+		} else if(punto2 == punto4){
+		//Se va a dibujar horizontal
+		document.getElementById("mensaje").innerHTML = "Dibujando l&iacute;nea horizontal";
+			if(punto1<punto3){
+				for(i = punto1; i<=punto3; i+=5){
+					contexto.fillText('x', i, punto2);
+				}
+			}else{
+				for(i = punto3; i<=punto1; i+=5){
+					contexto.fillText('x', i, punto2);
+				}
+			}
+		}else{
+			document.getElementById("mensaje").innerHTML = "Debe coincidir en valor los puntos x1, x2 para l&iacute;neas verticales o y1, y2 para l&iacute;neas horizontales";
+		}
+	 }  
+}
+
+function dibujaRectangulo(){
+	document.getElementById("mensaje").innerHTML = "";
+	 if(cadenaancho == 0 ||cadenaalto == 0){
+		document.getElementById("mensaje").innerHTML = "Debe primero crear el canvas";
+	 }else{
+		contexto.font = '8pt Arial';
+		contexto.fillStyle = 'blue';
+		
+		punto1 = parseInt(document.getElementById('px1').value);
+		punto2 = parseInt(document.getElementById('py1').value);
+		punto3 = parseInt(document.getElementById('px2').value);
+		punto4 = parseInt(document.getElementById('py2').value);
+		
+		if(punto1<punto3){
+			espacio1 = punto3 - punto1;
+		}else{
+			espacio1 = punto1 - punto3;
+		}
+		
+		if(punto2<punto4){
+			espacio2 = punto4 - punto2;
+		}else{
+			espacio2 = punto2 - punto4;
+		}
+			
+		if(punto1 == punto2 && punto3 == punto4){
+			document.getElementById("mensaje").innerHTML = "Los puntos x1, y1 y x2, y2 no pueden ser iguales para dibujar un rectangulo";
+			return;
+		}
+		
+		if(espacio1==espacio2){
+			document.getElementById("mensaje").innerHTML = "Los puntos x1, y1 o x2, y2 no pueden ser iguales para dibujar un rectangulo";
+			return;
+		}
+		
+		dibujaObjeto();
+
+		document.getElementById("mensaje").innerHTML = "Dibujando un rect&aacute;ngulo";
+	 } 
+}
+
+function pintar(){
+	document.getElementById("mensaje").innerHTML = "";
+	var color = document.getElementById('idcolor').value
+	var punto1Sugerido=0;
+	var punto2Sugerido=0;
+	
+	 if(cadenaancho == 0 ||cadenaalto == 0){
+		document.getElementById("mensaje").innerHTML = "Debe primero crear el canvas";
+	 }else{
+		contexto.font = '8pt Arial';
+		contexto.fillStyle = color;
+
+		punto1 = parseInt(document.getElementById('cx1').value);
+		punto2 = parseInt(document.getElementById('cy1').value);
+		punto3 = parseInt(document.getElementById('cx2').value);
+		punto4 = parseInt(document.getElementById('cy2').value);
+		
+		if(punto1<punto3){
+			espacio1 = punto3 - punto1;
+		}else{
+			espacio1 = punto1 - punto3;
+		}
+		
+		if(punto2<punto4){
+			espacio2 = punto4 - punto2;
+		}else{
+			espacio2 = punto2 - punto4;
+		}
+		
+		dibujaObjeto();
+		
+		document.getElementById("mensaje").innerHTML = "Figura libre con relleno";
+
+		if(punto1<=punto3){
+			punto1Sugerido = punto1;
+		}else{
+			punto1Sugerido = punto3;
+		}
+		if(punto2<=punto4){
+			punto2Sugerido = punto2;
+		}else{
+			punto2Sugerido = punto4;
+		}
+		
+		contexto.beginPath();
+		contexto.fillRect(punto1Sugerido+=5, punto2Sugerido, espacio1-=5, espacio2-=5);
+		contexto.fill();
+	 }	 
+}
+
+function dibujaObjeto(){
+			
+		var i = 0;
+		var j = 0;
+		
+		//1
+		if(punto1<punto3 && punto2<punto4){
+			//en x
+			for(i=punto1; i<=punto3; i+=5){
+				contexto.fillText('x', i, punto2);
+				contexto.fillText('x', i, punto2 + espacio2);
+			}
+			//en y
+			for(j=punto2; j<=punto4; j+=5){
+				contexto.fillText('x', punto1, j);
+				contexto.fillText('x', punto1 + espacio1, j);
+			}
+		}
+
+		//2
+		if(punto1>punto3 && punto2<punto4){
+			//en x
+			for(i=punto1; i>=punto3; i-=5){
+				contexto.fillText('x', i, punto2);
+				contexto.fillText('x', i, punto2 + espacio2);
+			}
+			//en y
+			for(j=punto2; j<=punto4; j+=5){
+				contexto.fillText('x', punto1, j);
+				contexto.fillText('x', punto1 - espacio1, j);
+			}
+		}
+		
+		//3
+		if(punto1<punto3 && punto2>punto4){
+			//en x
+			for(i=punto1; i<=punto3; i+=5){
+				contexto.fillText('x', i, punto2);
+				contexto.fillText('x', i, punto2 - espacio2);
+			}
+			//en y
+			for(j=punto2; j>=punto4; j-=5){
+				contexto.fillText('x', punto1, j);
+				contexto.fillText('x', punto1 + espacio1, j);
+			}
+		}
+		
+		//4
+		if(punto1>punto3&&punto2>punto4){
+		
+			//en x
+			for(i=punto1; i>=punto3; i-=5){
+				contexto.fillText('x', i, punto2);
+				contexto.fillText('x', i, punto2 - espacio2);
+			}
+			//en y
+			for(j=punto2; j>=punto4; j-=5){
+				contexto.fillText('x', punto1, j);
+				contexto.fillText('x', punto1 - espacio1, j);
+			}
+		}
+}
+
+
+</script>
+
+</head>
+<body>
+    <header id="headerId" >
+       <h1>Figuras sobre un Canvas</h1>
+    </header>
+	
+	<nav id="navId">
+		<ul>
+			<button id="bCanvas" onclick="mostrarFormCanvas()">Canvas</button>
+			<button id="bLinea" onclick="mostrarFormLinea()">Linea</button>
+			<button id="bRectangulo" onclick="mostrarFormRectangulo()">Rectangulo</button>
+			<button id="bColor" onclick="mostrarFormColor()">Color</button>
+		</ul>
+	</nav>
+	<section id="instrucciones">
+      <h3 id="mensaje"></h3>
+    </section>
+	<div id="content">
+		<div id="mainContent">
+			<section id="sectionId">
+					<h3>Canvas</h3>
+					<canvas id="miCanvas" width="0" height="0">
+						Navegador no compatible con canvas usar otro
+					</canvas>
+			</section>
+		</div>
+		<aside id="asideId">
+			<section id="sectionForm">
+			<h3 id="tituloConsola">Consola</h3>
+			<form action=”#” method=”post”>
+				<div id="canvasForm" style='display:none;'>
+					<p>
+						<label for="ancho">Ancho:</label>
+						<input name="ancho" id="ancho" size=5 type="text" maxlength=5 value="700" />
+					</p>
+					<p>
+						<label for="alto">Alto:</label>
+						<input name="alto" id="alto" type="text" size=5 maxlength=5 value="300" />
+					</p>
+					<p><input type="button" value="Dibujar" onclick="dibujaCanvas()" /></p>
+				</div>
+				<div id="lineaForm" style='display:none;'>
+					<p>
+						<label for="x1">x1:</label>
+						<input name="x1" id="x1" type="text" size=5 maxlength=5/>
+						<label for="y1">y1:</label>
+						<input name="y1" id="y1" type="text" size=5 maxlength=5  />
+					</p>
+					<p>
+						<label for="x2">x2:</label>
+						<input name="x2" id="x2" type="text" size=5 maxlength=5 />
+						<label for="y2">y2:</label>
+						<input name="y2" id="y2" type="text" size=5 maxlength=5 />
+						
+					</p>
+					<p><input type="button" value="Dibujar" onclick="dibujaLinea()" /></p>
+				</div>
+				<div id="rectanguloForm" style='display:none;'>
+					<p>
+						<label for="px1">x1:</label>
+						<input name="px1" id="px1" type="text" size=5 maxlength=5 value="50"  />
+						<label for="py1">y1:</label>
+						<input name="py1" id="py1" type="text" size=5 maxlength=5 value="100" />
+					</p>
+					<p>
+						<label for="px2">x2:</label>
+						<input name="px2" id="px2" type="text" size=5 maxlength=5 value="120"  />
+						<label for="py2">y2:</label>
+						<input name="py2" id="py2" type="text" size=5 maxlength=5 value="60" />
+					</p>
+					<p><input type="button" value="Dibujar" onclick="dibujaRectangulo()" /></p>
+				</div>
+				<div id="pintarForm" style='display:none;'>
+					<p>
+						<label for="cx1">x1:</label>
+						<input name="cx1" id="cx1" type="text" size=5 maxlength=5 value="100"  />
+						<label for="cy1">y1:</label>
+						<input name="cy1" id="cy1" type="text" size=5 maxlength=5 value="150" />
+					</p>
+					<p>
+						<label for="cx2">x2:</label>
+						<input name="cx2" id="cx2" type="text" size=5 maxlength=5 value="200"  />
+						<label for="cy2">y2:</label>
+						<input name="cy2" id="cy2" type="text" size=5 maxlength=5 value="220" />
+					</p>
+					<p>
+						<label for="idcolor">Color:</label>
+						<input name="idcolor" id="idcolor" type="color"/>
+					</p>
+					
+					<p><input type="button" value="Dibujar" onclick="pintar()" /></p>
+				</div>
+				
+			</form>
+			</section>
+		</aside>
+	</div>
+    <footer id="footerId">
+        <h3>Autor : Luis Javier Martinez</h3>
+    </footer>
+</body>
+</html>
